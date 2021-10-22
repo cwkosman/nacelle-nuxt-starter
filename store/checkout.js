@@ -83,19 +83,22 @@ export const actions = {
       throw new Error('Cannot checkout with an empty cart')
     }
 
-    let checkout = await this.$nacelle.checkout
-      .process({
-        cartItems,
-        checkoutId
-      })
-      .catch((err) => handleCheckoutError(err))
+    const cartToken = window.sessionStorage.getItem('cartToken')
+    const metafields = cartToken
+      ? [{ key: 'cart_token', value: cartToken }]
+      : []
+
+    let checkout = await this.$nacelle.checkout.process({
+      cartItems,
+      checkoutId,
+      metafields
+    })
     if (checkout && checkout.completed) {
-      checkout = await this.$nacelle.checkout
-        .process({
-          cartItems,
-          checkoutId: ''
-        })
-        .catch((err) => handleCheckoutError(err))
+      checkout = await this.$nacelle.checkout.process({
+        cartItems,
+        checkoutId: '',
+        metafields
+      })
     }
 
     if (!checkout || !checkout.id || !checkout.url) {

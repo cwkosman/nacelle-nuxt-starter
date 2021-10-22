@@ -14,6 +14,7 @@ export default {
       page: null
     }
   },
+
   async fetch() {
     const { pageHandle: handle } = this.$route.params
     this.page = await this.$nacelle.data.page({ handle }).catch(() => {

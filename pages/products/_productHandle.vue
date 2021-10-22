@@ -130,6 +130,9 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$rise.registerProduct({ product: this.product })
+  },
   beforeDestroy() {
     this.$deregisterProduct(this.product)
   },

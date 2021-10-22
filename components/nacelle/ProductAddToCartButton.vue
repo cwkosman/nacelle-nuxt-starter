@@ -1,7 +1,7 @@
 <template>
   <div>
     <button
-      class="button is-primary"
+      class="button is-primary Rise-add-to-cart-button"
       :disabled="!isLoading && isOutOfStock"
       @click="addToCart"
     >

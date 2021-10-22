@@ -53,7 +53,8 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/sitemap',
     'nuxt-polyfill',
-    '~/modules/nacelle'
+    '~/modules/nacelle',
+    '@nacelle/rise-nuxt-module'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -70,7 +71,8 @@ export default {
   nacelle: {
     spaceID: process.env.NACELLE_SPACE_ID,
     token: process.env.NACELLE_GRAPHQL_TOKEN,
-    endpoint: process.env.NACELLE_ENDPOINT
+    endpoint: process.env.NACELLE_ENDPOINT,
+    shopifyDomain: process.env.SHOPIFY_DOMAIN
 
     /* Optional */
     // Set the default internationalization locales string for Nacelle to use
