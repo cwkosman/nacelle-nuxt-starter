@@ -1,10 +1,14 @@
 import NacelleClient from '@nacelle/client-js-sdk/dist/client-js-sdk.esm'
+import createCompatibilityConnector from '@nacelle/compatibility-connector';
 import generateSiteData from './data/generateSiteData'
 import writeData from './utils/writeData'
 import createSearchDataObject from './utils/createSearchDataObject'
 import transformProductData from './utils/transformProductData'
 
 const path = require('path')
+
+const warpToken = process.env.WARP_GRAPHQL_TOKEN
+const warpEndpoint = process.env.WARP_ENDPOINT
 
 module.exports = async function (moduleOptions) {
   const options = {
@@ -21,6 +25,18 @@ module.exports = async function (moduleOptions) {
     nacelleEndpoint: options.endpoint,
     useStatic: false
   })
+
+  // Initialize the Compatibility Connector
+  const compatibilityConnector = new createCompatibilityConnector({
+    endpoint: warpEndpoint,
+    token: warpToken,
+    locale: 'en-US'
+  });
+
+  // Update SDK client with the Compatibility Connector
+  client.data.update({
+    connector: compatibilityConnector
+  });
 
   // Read space data
   const space = await client.data.space()

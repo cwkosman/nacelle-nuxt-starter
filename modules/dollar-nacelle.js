@@ -1,4 +1,6 @@
 import NacelleClient from '@nacelle/client-js-sdk/dist/client-js-sdk.esm'
+import createCompatibilityConnector from '@nacelle/compatibility-connector'
+
 import LRU from 'lru-cache'
 const cache = new LRU({ max: 50, max_age: 3000000 })
 
@@ -11,6 +13,18 @@ export default function (context, inject) {
     nacelleEndpoint: context.$config.nacelleEndpoint,
     useStatic: false
   })
+
+  // Initialize the Compatibility Connector
+  const compatibilityConnector = new createCompatibilityConnector({
+    endpoint: context.$config.warpEndpoint,
+    token: context.$config.warpToken,
+    locale: 'en-US'
+  });
+
+  // Update SDK client with the Compatibility Connector
+  client.data.update({
+    connector: compatibilityConnector
+  });
 
   const setSpace = async () => {
     const { commit } = context.store
